@@ -1,5 +1,11 @@
-.vol/
-.env
 wazuh_indexer_ssl_certs/
+configs/
+files/
+gnupg/
+logs/
+ssl/
+.env
 *.pem
 *.key
+env.hcl
+rootca.crt
