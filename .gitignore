@@ -1,0 +1,5 @@
+.vol/
+.env
+wazuh_indexer_ssl_certs/
+*.pem
+*.key
