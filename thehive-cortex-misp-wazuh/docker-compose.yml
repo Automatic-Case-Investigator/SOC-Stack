@@ -30,14 +30,6 @@ services:
       - "--s3-bucket"
       - "thehive"
       - "--s3-use-path-access-style"
-      - "--cortex-hostnames"
-      - "cortex"
-      - "--cortex-keys"
-      - "${CORTEX_KEY}"
-      - "--misp-hostnames"
-      - "misp-core"
-      - "--misp-keys"
-      - "${MISP_KEY}"
 
   cassandra:
     image: 'cassandra:4'
