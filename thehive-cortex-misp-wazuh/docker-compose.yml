@@ -33,8 +33,11 @@ services:
       - "--cortex-hostnames"
       - "cortex"
       - "--cortex-keys"
-      # put cortex api key once cortex is bootstraped
-      - "rpjfP3LZwwHDFJY2nIwzH7rdLmiJ2Nj7"
+      - "${CORTEX_KEY}"
+      - "--misp-hostnames"
+      - "misp-core"
+      - "--misp-keys"
+      - "${MISP_KEY}"
 
   cassandra:
     image: 'cassandra:4'

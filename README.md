@@ -1,6 +1,6 @@
 # SOC Technology Stack
 
-## Initial setup
+- [The Hive + Cortex + MISP + Wazuh](thehive-cortex-misp-wazuh)
 
 ## Credited repositories
 - https://github.com/wazuh/wazuh-docker
