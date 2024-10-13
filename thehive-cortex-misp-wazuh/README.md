@@ -25,6 +25,11 @@ Run the SOC stack with the following command:
 docker compose up -d
 ```
 
+In case if Wazuh indexer cannot cannot find the template of the index pattern [wazuh-alerts-*], run the following to update the template in Wazuh indexer:
+```bash
+cat wazuh-index-template.json | curl -X PUT "https://localhost:9201/_template/wazuh" -H 'Content-Type: application/json' -d @- -u admin:SecretPassword -k
+```
+
 ### Cortex
 1. Create an admin user
 2. Create a new organization
