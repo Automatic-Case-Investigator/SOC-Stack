@@ -59,6 +59,8 @@ Add the following to the Wazuh manager's ossec.conf:
 
 Restart the Wazuh manager to apply the changes. If not working as intended, check ```/var/ossec/logs/integrations.log``` for more information.
 
+Reference: https://wazuh.com/blog/using-wazuh-and-thehive-for-threat-protection-and-incident-response/
+
 ### Cortex
 1. Create an admin user
 2. Create a new organization
