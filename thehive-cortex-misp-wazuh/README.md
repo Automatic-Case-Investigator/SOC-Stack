@@ -30,6 +30,35 @@ In case if Wazuh indexer cannot cannot find the template of the index pattern [w
 cat wazuh-index-template.json | curl -X PUT "https://localhost:9201/_template/wazuh" -H 'Content-Type: application/json' -d @- -u admin:SecretPassword -k
 ```
 
+#### Wazuh The Hive integration
+
+Go to the Wazuh manager's docker container and run:
+```bash
+/var/ossec/framework/python/bin/pip3 install thehive4py==1.8.1
+```
+
+Copy the files in ```wazuh_integrations``` to Wazuh manager's docker container and run the following:
+```bash
+chmod 755 /var/ossec/integrations/custom-w2thive.py
+chmod 755 /var/ossec/integrations/custom-w2thive
+chown root:ossec /var/ossec/integrations/custom-w2thive.py
+chown root:ossec /var/ossec/integrations/custom-w2thive
+```
+
+Add the following to the Wazuh manager's ossec.conf:
+```bash
+<ossec_config>
+    <integration>
+        <name>custom-w2thive</name>
+        <hook_url>http://thehive:9000</hook_url>
+        <api_key>YOUR_THEHIVE_API_KEY</api_key>
+        <alert_format>json</alert_format>
+    </integration>
+</ossec_config>
+```
+
+Restart the Wazuh manager to apply the changes. If not working as intended, check ```/var/ossec/logs/integrations.log``` for more information.
+
 ### Cortex
 1. Create an admin user
 2. Create a new organization
