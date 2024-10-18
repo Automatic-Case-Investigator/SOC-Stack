@@ -30,7 +30,7 @@ In case if Wazuh indexer cannot cannot find the template of the index pattern [w
 cat wazuh-index-template.json | curl -X PUT "https://localhost:9201/_template/wazuh" -H 'Content-Type: application/json' -d @- -u admin:SecretPassword -k
 ```
 
-#### Wazuh The Hive integration
+#### The Hive integration
 
 Go to the Wazuh manager's docker container and run:
 ```bash
