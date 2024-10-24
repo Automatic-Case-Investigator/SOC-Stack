@@ -41,8 +41,8 @@ Copy the files in ```wazuh_integrations``` to Wazuh manager's docker container a
 ```bash
 chmod 755 /var/ossec/integrations/custom-w2thive.py
 chmod 755 /var/ossec/integrations/custom-w2thive
-chown root:ossec /var/ossec/integrations/custom-w2thive.py
-chown root:ossec /var/ossec/integrations/custom-w2thive
+chown root:wazuh /var/ossec/integrations/custom-w2thive.py
+chown root:wazuh /var/ossec/integrations/custom-w2thive
 ```
 
 Add the following to the Wazuh manager's ossec.conf:
