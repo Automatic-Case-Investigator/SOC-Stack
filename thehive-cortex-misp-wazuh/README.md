@@ -45,6 +45,11 @@ chown root:wazuh /var/ossec/integrations/custom-w2thive.py
 chown root:wazuh /var/ossec/integrations/custom-w2thive
 ```
 
+If you copied your files from a windows computer, make sure to run the following so the bash file can be executed successfully:
+```bash
+sed -i 's/\r//' custom-w2thive
+```
+
 Add the following to the Wazuh manager's ossec.conf:
 ```bash
 <ossec_config>
