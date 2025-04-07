@@ -26,13 +26,12 @@ FROM "${DOCKER_HUB_PROXY}python:3.12-slim-bookworm" AS python-build
 
     RUN mkdir /wheels
 
-    RUN <<-EOF
-        if [ ! -z ${MODULES_COMMIT} ]; then
-            git clone https://github.com/MISP/misp-modules.git /srv/misp-modules && cd /srv/misp-modules && git checkout ${MODULES_COMMIT}
-        else
-            git clone --branch ${MODULES_TAG} --depth 1 https://github.com/MISP/misp-modules.git /srv/misp-modules
-        fi
-EOF
+    # Fix: use proper quoting for shell variables and correct if statement
+    RUN bash -c 'if [ ! -z "${MODULES_COMMIT}" ]; then \
+        git clone https://github.com/MISP/misp-modules.git /srv/misp-modules && cd /srv/misp-modules && git checkout "${MODULES_COMMIT}"; \
+    else \
+        git clone --branch "${MODULES_TAG}" --depth 1 https://github.com/MISP/misp-modules.git /srv/misp-modules; \
+    fi'
 
     WORKDIR /srv/misp-modules
     RUN pip install poetry
@@ -46,13 +45,9 @@ EOF
     WORKDIR /srv/
     RUN rm -rf /srv/misp-modules
 
-    RUN <<-EOF
-        git clone --depth 1 https://github.com/stricaud/faup.git /srv/faup
-        cd /srv/faup
-        if [ ! -z ${LIBFAUP_COMMIT} ]; then
-            git checkout ${LIBFAUP_COMMIT}
-        fi
-EOF
+    # Fix: proper quoting and variable expansion for git checkout
+    RUN bash -c 'git clone --depth 1 https://github.com/stricaud/faup.git /srv/faup && cd /srv/faup && \
+        if [ ! -z "${LIBFAUP_COMMIT}" ]; then git checkout "${LIBFAUP_COMMIT}"; fi'
 
     WORKDIR /srv/faup/build
     RUN cmake -G "Ninja" ../
@@ -63,7 +58,6 @@ EOF
 
     WORKDIR /srv/
     RUN rm -rf /srv/faup
-
 
 FROM "${DOCKER_HUB_PROXY}python:3.12-slim-bookworm"
     ENV DEBIAN_FRONTEND noninteractive
@@ -88,11 +82,10 @@ FROM "${DOCKER_HUB_PROXY}python:3.12-slim-bookworm"
 
     # Since we compile faup ourselves and lua is not required anymore, we can load our own library 
     #   and skip the pre-compiled blob to improve compatibility with other architectures like ARM
-    RUN sed -i s/LoadLibrary\(LOAD_LIB\)/LoadLibrary\(\"\\/usr\\/local\\/lib\\/libfaupl.so\"\)/ \
-        /usr/local/lib/python3.12/site-packages/pyfaup/__init__.py
+    RUN sed -i 's/LoadLibrary(LOAD_LIB)/LoadLibrary("\/usr\/local\/lib\/libfaupl.so")/' \
+    /usr/local/lib/python3.12/site-packages/pyfaup/__init__.py
 
     # Disable (all) warnings raised when using 'future'
-    RUN sed -i '/import sys/a import warnings\nwarnings.warn = lambda *args, **kwargs: None' \
-        /usr/local/bin/misp-modules
+    RUN bash -c 'sed -i "/import sys/a import warnings\nwarnings.warn = lambda *args, **kwargs: None" /usr/local/bin/misp-modules'
 
-    ENTRYPOINT [ "/usr/local/bin/misp-modules", "-l", "0.0.0.0"]
+    ENTRYPOINT [ "/usr/local/bin/misp-modules", "-l", "0.0.0.0" ]
