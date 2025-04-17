@@ -37,7 +37,13 @@ Go to the Wazuh manager's docker container and run:
 /var/ossec/framework/python/bin/pip3 install thehive4py==1.8.1
 ```
 
-Copy the files in ```wazuh_integrations``` to Wazuh manager's docker container and run the following:
+Copy the files in ```wazuh_integrations``` to Wazuh manager's docker container:
+```bash
+docker container cp .\custom-w2thive a2f8d19e4e97:/var/ossec/integrations/
+docker container cp .\custom-w2thive.py a2f8d19e4e97:/var/ossec/integrations/                                              
+```
+
+Change the permissoins of the files uploaded:
 ```bash
 chmod 755 /var/ossec/integrations/custom-w2thive.py
 chmod 755 /var/ossec/integrations/custom-w2thive
