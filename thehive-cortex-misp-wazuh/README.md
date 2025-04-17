@@ -39,8 +39,8 @@ Go to the Wazuh manager's docker container and run:
 
 Copy the files in ```wazuh_integrations``` to Wazuh manager's docker container:
 ```bash
-docker container cp .\custom-w2thive a2f8d19e4e97:/var/ossec/integrations/
-docker container cp .\custom-w2thive.py a2f8d19e4e97:/var/ossec/integrations/                                              
+docker container cp .\custom-w2thive [<container_id>]:/var/ossec/integrations/
+docker container cp .\custom-w2thive.py [<container_id>]:/var/ossec/integrations/                                              
 ```
 
 Change the permissoins of the files uploaded:
